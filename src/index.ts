@@ -1,7 +1,10 @@
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config(); 
 
 async function ping() {
-  const BACKEND_URL = "http://localhost:3001";
+  const BACKEND_URL = process.env.BACKEND_URL
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
