@@ -8,7 +8,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "YES",
@@ -18,7 +18,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "YES",
@@ -28,7 +28,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "YES",
@@ -38,7 +38,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "YES",
@@ -48,7 +48,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "YES",
@@ -58,7 +58,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "NO",
@@ -68,7 +68,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "NO",
@@ -78,7 +78,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "NO",
@@ -88,7 +88,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "NO",
@@ -98,7 +98,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       noOfTokens: 3,
       event: "btc",
       type: "NO",
@@ -108,7 +108,7 @@ async function ping() {
 
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
-      userId: "LDzVTLGAX2Who2OJhUsV36G7XLnnnzU9",
+      userId: process.env.USER_ID,
       event: "btc",
       noOfTokens: 20,
     });
