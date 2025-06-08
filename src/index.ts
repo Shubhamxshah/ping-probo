@@ -7,7 +7,7 @@ const BACKEND_URL = process.env.BACKEND_URL;
 async function ping() {
   await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
     userId: process.env.USER_ID,
-    noOfTokens: 3,
+    noOfTokens: 5,
     event: "btc",
     type: "YES",
     price: "700",
@@ -16,7 +16,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 4,
       event: "btc",
       type: "YES",
       price: "750",
@@ -36,7 +36,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 2,
       event: "btc",
       type: "YES",
       price: "850",
@@ -46,7 +46,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 1,
       event: "btc",
       type: "YES",
       price: "900",
@@ -56,7 +56,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 1,
       event: "btc",
       type: "NO",
       price: "750",
@@ -66,7 +66,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 2,
       event: "btc",
       type: "NO",
       price: "800",
@@ -86,7 +86,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 4,
       event: "btc",
       type: "NO",
       price: "900",
@@ -96,7 +96,7 @@ async function ping() {
   setTimeout(async () => {
     await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
       userId: process.env.USER_ID,
-      noOfTokens: 3,
+      noOfTokens: 5,
       event: "btc",
       type: "NO",
       price: "950",
