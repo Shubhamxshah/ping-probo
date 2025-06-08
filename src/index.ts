@@ -108,21 +108,26 @@ setInterval(() => {
   ping();
 }, 2000);
 
-setTimeout(() => {
-  (async () => {
-    try {
-      await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
-      await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
-        userId: process.env.USER_ID,
-        noOfTokens: 30000,
-        event: "btc",
-      });
-      console.log("Reset and mint triggered at 5 min");
-    } catch (err) {
-      console.error("Error in 5-min timeout:", err);
-    }
-  })();
-}, 5 * 60 * 1000);
+async function reset() {
+  setTimeout(
+    async () => {
+      try {
+        await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
+        await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
+          userId: process.env.USER_ID,
+          noOfTokens: 30000,
+          event: "btc",
+        });
+        console.log("Reset and mint triggered at 5 min");
+      } catch (err) {
+        console.error("Error in 5-min timeout:", err);
+      }
+    },
+    5 * 60 * 1000,
+  );
+}
+
+reset();
 
 async function main() {
   await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
