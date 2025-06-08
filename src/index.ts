@@ -5,7 +5,6 @@ dotenv.config();
 
 const BACKEND_URL = process.env.BACKEND_URL;
 async function ping() {
-
   await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
     userId: process.env.USER_ID,
     noOfTokens: 3,
@@ -109,6 +108,20 @@ setInterval(() => {
   ping();
 }, 2000);
 
-setTimeout(async () => {
-  await axios.post(`${BACKEND_URL}/api/v1/user/reset`)
-}, 30*60*1000)
+setTimeout(
+  async () => {
+    await axios.post(`${BACKEND_URL}/api/v1/user/reset`);
+  },
+  30 * 60 * 1000,
+);
+
+async function main() {
+  await axios.post(`${BACKEND_URL}/api/v1/user/reset`);
+  await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
+    userId: process.env.USER_ID,
+    noOfTokens: 90000,
+    event: "btc",
+  });
+}
+
+main();
