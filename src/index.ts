@@ -110,7 +110,7 @@ setInterval(() => {
 
 setTimeout(
   async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/user/reset`);
+    await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
     await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
       userId: process.env.USER_ID,
       noOfTokens: 90000,
@@ -121,7 +121,7 @@ setTimeout(
 );
 
 async function main() {
-  await axios.post(`${BACKEND_URL}/api/v1/user/reset`);
+  await axios.post(`${BACKEND_URL}/api/v1/trader/reset`);
   await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
     userId: process.env.USER_ID,
     noOfTokens: 90000,
