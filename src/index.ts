@@ -109,7 +109,7 @@ setInterval(() => {
 }, 2000);
 
 async function reset() {
-  setTimeout(
+  setInterval(
     async () => {
       try {
         await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
