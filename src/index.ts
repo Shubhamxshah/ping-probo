@@ -128,7 +128,7 @@ async function main() {
   // });
   await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
     userId: process.env.USER_ID,
-    noOfTokens: 90000,
+    noOfTokens: 30000,
     event: "btc",
   });
 }
