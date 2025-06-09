@@ -99,6 +99,9 @@ async function main() {
       noOfTokens: 30000,
       event: "btc",
     });
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     console.log("✅ Initial mint: 30000 tokens");
   } catch (err) {
     console.error("❌ Error in main():", err);
