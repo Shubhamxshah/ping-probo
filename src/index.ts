@@ -4,10 +4,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const BACKEND_URL = process.env.BACKEND_URL;
-
 if (!BACKEND_URL || !process.env.USER_ID) {
   throw new Error("Missing BACKEND_URL or USER_ID");
 }
+
+let pingInterval: NodeJS.Timeout | null = null;
 
 async function ping() {
   const trades = [
@@ -40,43 +41,81 @@ async function ping() {
   });
 }
 
-function reset() {
-  setInterval(async () => {
-    try {
-      await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
-      await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
-        userId: process.env.USER_ID,
-        noOfTokens: 30000,
-        event: "btc",
-      });
-      console.log("✅ Reset and mint triggered at 5 min");
-    } catch (err) {
-      console.error("Error in 5-min reset:", err);
-    }
-  }, 5 * 60 * 1000);
-}
-
-async function main() {
+async function performReset() {
+  console.log(`🔄 Starting reset at ${new Date().toISOString()}`);
+  
   try {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
-    console.log("Reset done");
+    // Stop ping temporarily
+    if (pingInterval) {
+      clearInterval(pingInterval);
+      pingInterval = null;
+      console.log("⏸️ Temporarily stopped ping");
+    }
 
+    // Wait a moment for any pending trades to complete
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Perform reset
+    console.log("📡 Calling reset endpoint...");
+    await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
+    console.log("✅ Reset successful");
+
+    // Mint new tokens
+    console.log("💰 Minting tokens...");
     await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
       userId: process.env.USER_ID,
       noOfTokens: 30000,
       event: "btc",
     });
-    console.log("Minted 30000 tokens");
+    console.log("✅ Mint successful");
+
+    // Restart ping
+    pingInterval = setInterval(ping, 2000);
+    console.log("▶️ Ping restarted");
+    
+    console.log("🎉 Reset and mint completed successfully");
   } catch (err) {
-    console.error("Error in main():", err);
+    console.error("❌ Error in reset:", err);
+    // Make sure to restart ping even if reset fails
+    if (!pingInterval) {
+      pingInterval = setInterval(ping, 2000);
+      console.log("▶️ Ping restarted after error");
+    }
+  }
+}
+
+function reset() {
+  console.log("🔄 Reset scheduler started - will run every 5 minutes");
+  setInterval(performReset, 5 * 60 * 1000);
+}
+
+async function main() {
+  try {
+    await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
+    console.log("✅ Initial reset done");
+    
+    await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
+      userId: process.env.USER_ID,
+      noOfTokens: 30000,
+      event: "btc",
+    });
+    console.log("✅ Initial mint: 30000 tokens");
+  } catch (err) {
+    console.error("❌ Error in main():", err);
   }
 }
 
 async function init() {
   await main();
-  setInterval(ping, 2000);
+  
+  // Start ping
+  pingInterval = setInterval(ping, 2000);
+  console.log("▶️ Ping started (every 2 seconds)");
+  
+  // Start reset scheduler
   reset();
+  
+  console.log("🚀 All systems running!");
 }
 
 init();
-
