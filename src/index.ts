@@ -108,7 +108,7 @@ setInterval(() => {
   ping();
 }, 2000);
 
-async function reset() {
+function reset() {
   setInterval(
     async () => {
       try {
