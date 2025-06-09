@@ -4,142 +4,79 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const BACKEND_URL = process.env.BACKEND_URL;
-async function ping() {
-  await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-    userId: process.env.USER_ID,
-    noOfTokens: 5,
-    event: "btc",
-    type: "YES",
-    price: "700",
-  });
 
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 4,
-      event: "btc",
-      type: "YES",
-      price: "750",
-    });
-  }, 200);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 3,
-      event: "btc",
-      type: "YES",
-      price: "800",
-    });
-  }, 400);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 2,
-      event: "btc",
-      type: "YES",
-      price: "850",
-    });
-  }, 600);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 1,
-      event: "btc",
-      type: "YES",
-      price: "900",
-    });
-  }, 800);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 1,
-      event: "btc",
-      type: "NO",
-      price: "750",
-    });
-  }, 1000);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 2,
-      event: "btc",
-      type: "NO",
-      price: "800",
-    });
-  }, 1200);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 3,
-      event: "btc",
-      type: "NO",
-      price: "850",
-    });
-  }, 1400);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 4,
-      event: "btc",
-      type: "NO",
-      price: "900",
-    });
-  }, 1600);
-
-  setTimeout(async () => {
-    await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-      userId: process.env.USER_ID,
-      noOfTokens: 5,
-      event: "btc",
-      type: "NO",
-      price: "950",
-    });
-  }, 1800);
+if (!BACKEND_URL || !process.env.USER_ID) {
+  throw new Error("Missing BACKEND_URL or USER_ID");
 }
 
-setInterval(() => {
-  ping();
-}, 2000);
+async function ping() {
+  const trades = [
+    { noOfTokens: 5, type: "YES", price: "700" },
+    { noOfTokens: 4, type: "YES", price: "750" },
+    { noOfTokens: 3, type: "YES", price: "800" },
+    { noOfTokens: 2, type: "YES", price: "850" },
+    { noOfTokens: 1, type: "YES", price: "900" },
+    { noOfTokens: 1, type: "NO", price: "750" },
+    { noOfTokens: 2, type: "NO", price: "800" },
+    { noOfTokens: 3, type: "NO", price: "850" },
+    { noOfTokens: 4, type: "NO", price: "900" },
+    { noOfTokens: 5, type: "NO", price: "950" },
+  ];
+
+  trades.forEach((trade, index) => {
+    setTimeout(async () => {
+      try {
+        await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
+          userId: process.env.USER_ID,
+          noOfTokens: trade.noOfTokens,
+          event: "btc",
+          type: trade.type,
+          price: trade.price,
+        });
+      } catch (err) {
+        console.error(`Trade ${index + 1} failed`, err);
+      }
+    }, index * 200);
+  });
+}
 
 function reset() {
-  setInterval(
-    async () => {
-      try {
-        await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
-        await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
-          userId: process.env.USER_ID,
-          noOfTokens: 30000,
-          event: "btc",
-        });
-        console.log("Reset and mint triggered at 5 min");
-      } catch (err) {
-        console.error("Error in 5-min timeout:", err);
-      }
-    },
-    5 * 60 * 1000,
-  );
+  setInterval(async () => {
+    try {
+      await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
+      await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
+        userId: process.env.USER_ID,
+        noOfTokens: 30000,
+        event: "btc",
+      });
+      console.log("✅ Reset and mint triggered at 5 min");
+    } catch (err) {
+      console.error("Error in 5-min reset:", err);
+    }
+  }, 5 * 60 * 1000);
 }
-
-reset();
 
 async function main() {
-  await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
-  //   await axios.post(`${BACKEND_URL}/api/v1/balance/addfree`, {
-  //   userId: process.env.USER_ID,
-  //   amount: "100000000"
-  // });
-  await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
-    userId: process.env.USER_ID,
-    noOfTokens: 30000,
-    event: "btc",
-  });
+  try {
+    await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
+    console.log("Reset done");
+
+    await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
+      userId: process.env.USER_ID,
+      noOfTokens: 30000,
+      event: "btc",
+    });
+    console.log("Minted 30000 tokens");
+  } catch (err) {
+    console.error("Error in main():", err);
+  }
 }
 
-main();
+async function init() {
+  await main();
+  setInterval(ping, 2000);
+  reset();
+}
+
+init();
+
