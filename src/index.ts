@@ -38,8 +38,11 @@ async function ping() {
         } catch (err) {
           console.error(`Trade ${index + 1} failed`, err);
         }
-        resolve();
+
       }, index * 200);
+      
+      reset();
+      resolve();
     })
   );
 
@@ -112,7 +115,7 @@ async function main() {
 
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    console.log("✅ Initial mint: 30000 tokens");
+    console.log("✅ Initial mint: 300 tokens");
   } catch (err) {
     console.error("❌ Error in main():", err);
   }
