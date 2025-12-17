@@ -98,14 +98,19 @@ async function main() {
   try {
     await axios.post(`${BACKEND_URL}/api/v1/trade/reset`);
     console.log("✅ Initial reset done");
+
+    await axios.post(`${BACKEND_URL}/api/v1/balance/addfree`, {
+      userId: process.env.USER_ID,
+      amount: 100000,
+    });
     
     await axios.post(`${BACKEND_URL}/api/v1/balance/mint`, {
       userId: process.env.USER_ID,
-      noOfTokens: 30000,
+      noOfTokens: 300,
       event: "btc",
     });
 
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     console.log("✅ Initial mint: 30000 tokens");
   } catch (err) {
