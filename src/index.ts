@@ -24,21 +24,26 @@ async function ping() {
     { noOfTokens: 5, type: "NO", price: "950" },
   ];
 
-  trades.forEach((trade, index) => {
-    setTimeout(async () => {
-      try {
-        await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
-          userId: process.env.USER_ID,
-          noOfTokens: trade.noOfTokens,
-          event: "btc",
-          type: trade.type,
-          price: trade.price,
-        });
-      } catch (err) {
-        console.error(`Trade ${index + 1} failed`, err);
-      }
-    }, index * 200);
-  });
+  const tradePromises = trades.map((trade, index) =>
+    new Promise<void>((resolve) => {
+      setTimeout(async () => {
+        try {
+          await axios.post(`${BACKEND_URL}/api/v1/trade/sell`, {
+            userId: process.env.USER_ID,
+            noOfTokens: trade.noOfTokens,
+            event: "btc",
+            type: trade.type,
+            price: trade.price,
+          });
+        } catch (err) {
+          console.error(`Trade ${index + 1} failed`, err);
+        }
+        resolve();
+      }, index * 200);
+    })
+  );
+
+  await Promise.all(tradePromises);
 }
 
 async function performReset() {
