@@ -162,7 +162,15 @@ async function main() {
 
     await new Promise(resolve => setTimeout(resolve, 2000));
   } catch (err) {
-    console.error("❌ Error in main():", err instanceof Error ? err.message : err);
+    if (axios.isAxiosError(err)) {
+      console.error("❌ Error in main():", err.message);
+      console.error("📍 URL:", err.config?.url);
+      console.error("📦 Request data:", JSON.stringify(err.config?.data, null, 2));
+      console.error("🔴 Response status:", err.response?.status);
+      console.error("🔴 Response data:", JSON.stringify(err.response?.data, null, 2));
+    } else {
+      console.error("❌ Error in main():", err instanceof Error ? err.message : err);
+    }
     throw err;
   }
 }
